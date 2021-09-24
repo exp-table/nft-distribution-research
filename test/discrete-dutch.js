@@ -32,7 +32,7 @@ describe("Discrete Dutch Auction", function () {
   */
 
   before(async function () {
-    const DDA = await ethers.getContractFactory("DiscreteDutchAuction");
+    const DDA = await ethers.getContractFactory("DDAImpl");
     dutch = await DDA.deploy();
     await dutch.deployed();
 

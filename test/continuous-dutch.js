@@ -16,10 +16,11 @@ function decayedPrice(price, decFactor, blocks) {
 }
 
 describe("Continuous Dutch Auction", function () {
+  const buyer = "0xD2927a91570146218eD700566DF516d67C5ECFAB";
   const initialPrice = 5;
   const decFactor = 0.02; //decreasing factor
   const period = 200; //200 blocks period
-  let start, dutch;
+  let owner, start, dutch;
 
 
   /*
@@ -30,13 +31,16 @@ describe("Continuous Dutch Auction", function () {
   */
 
   before(async function () {
-    const CDA = await ethers.getContractFactory("ContinuousDutchAuction");
+    [owner] = await ethers.getSigners();
+    const CDA = await ethers.getContractFactory("CDAImpl");
     dutch = await CDA.deploy();
     await dutch.deployed();
 
     start = await ethers.provider.getBlockNumber();
 
     await dutch.createAuction(toWei(initialPrice), start, toWei(decFactor), period);
+
+    //await owner.sendTransaction({to:buyer, value:toWei(10)});
   });
 
   it("Initial price check", async function () {
@@ -48,6 +52,12 @@ describe("Continuous Dutch Auction", function () {
     mineBlocks(37);
     const price = await dutch.getPrice(0);
     expect(price).to.be.equal(decayedPrice(initialPrice, decFactor, 38));
+  });
+
+  it("Refunds the difference", async function() {
+    await dutch.buy(0, {value:toWei(5)});
+    const price = await dutch.getPrice(0);
+    expect(await ethers.provider.getBalance(dutch.address)).to.be.equal(price);
   });
 
   it("Price check after period ended - should not be decayed further", async function() {
