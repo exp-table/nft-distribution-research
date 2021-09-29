@@ -51,7 +51,7 @@ abstract contract ADiscreteDutchAuction {
 
     modifier verifyBid(uint256 auctionId) {
         Auction memory auction = auctions[auctionId];
-        require(auction.startingBlock >= block.number, "PURCHASE:AUCTION NOT STARTED");
+        require(block.number >= auction.startingBlock, "PURCHASE:AUCTION NOT STARTED");
         uint256 price = getPrice(auctionId);
         require(msg.value == price, "PURCHASE:INCORRECT MSG.VALUE");
         _;
