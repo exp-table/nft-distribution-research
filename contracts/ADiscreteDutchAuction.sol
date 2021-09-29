@@ -49,11 +49,12 @@ abstract contract ADiscreteDutchAuction {
         return price;
     }
 
-    modifier verifyBid(uint256 auctionId) {
+    function verifyBid(uint256 auctionId) internal returns (uint256) {
         Auction memory auction = auctions[auctionId];
+        require(auction.startingBlock > 0, "AUCTION:NOT CREATED");
         require(block.number >= auction.startingBlock, "PURCHASE:AUCTION NOT STARTED");
         uint256 price = getPrice(auctionId);
         require(msg.value == price, "PURCHASE:INCORRECT MSG.VALUE");
-        _;
+        return price;
     }
 }

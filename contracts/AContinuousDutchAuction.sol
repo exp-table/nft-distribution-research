@@ -45,12 +45,13 @@ abstract contract AContinuousDutchAuction {
         return price >= floorPrice && price <= auction.startingPrice ? price : floorPrice;
     }
 
-    modifier verifyBid(uint256 auctionId) {
+    function verifyBid(uint256 auctionId) internal returns (uint256) {
         Auction memory auction = auctions[auctionId];
+        require(auction.startingBlock > 0, "AUCTION:NOT CREATED");
         require(block.number >= auction.startingBlock, "PURCHASE:AUCTION NOT STARTED");
         uint256 price = getPrice(auctionId);
         require(msg.value >= price, "PURCHASE:INCORRECT MSG.VALUE");
         if (msg.value - price > 0) Address.sendValue(payable(msg.sender), msg.value-price); //refund difference
-        _;
+        return price;
     }
 }
