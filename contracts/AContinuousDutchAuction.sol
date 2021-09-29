@@ -39,8 +39,10 @@ abstract contract AContinuousDutchAuction {
         Auction memory auction = auctions[auctionId];
         uint256 price = auction.startingPrice;
         uint256 floorPrice = price - auction.period * auction.decreasingConstant;
-        price -= auction.decreasingConstant * (block.number - auction.startingBlock);
-        return price >= floorPrice ? price : floorPrice;
+        unchecked {
+            price -= auction.decreasingConstant * (block.number - auction.startingBlock);
+        }
+        return price >= floorPrice && price <= auction.startingPrice ? price : floorPrice;
     }
 
     modifier verifyBid(uint256 auctionId) {

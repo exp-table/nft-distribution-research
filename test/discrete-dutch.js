@@ -19,7 +19,7 @@ function priceAfterIntervals(initialPrice, decFactor, intervals) {
 describe("Discrete Dutch Auction", function () {
   const initialPrice = 5;
   const decFactor = 0.5; //decreasing factor
-  const steps = 8;
+  const steps = 3;
   const interval = 50; //50 blocks interval
   let start, dutch;
 
