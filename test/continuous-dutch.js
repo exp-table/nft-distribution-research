@@ -32,7 +32,8 @@ describe("Continuous Dutch Auction", function () {
 
   before(async function () {
     [owner] = await ethers.getSigners();
-    const CDA = await ethers.getContractFactory("CDAImpl");
+
+    const CDA = await ethers.getContractFactory("CDAMock");
     dutch = await CDA.deploy();
     await dutch.deployed();
 
@@ -40,7 +41,6 @@ describe("Continuous Dutch Auction", function () {
 
     await dutch.createAuction(toWei(initialPrice), start, toWei(decFactor), period);
 
-    //await owner.sendTransaction({to:buyer, value:toWei(10)});
   });
 
   it("Initial price check", async function () {
