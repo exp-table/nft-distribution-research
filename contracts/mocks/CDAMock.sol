@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../auctions/AContinuousDutchAuction.sol";
+import "../auctions/ContinuousDutchAuction.sol";
 
-contract CDAMock is AContinuousDutchAuction {
+contract CDAMock is ContinuousDutchAuction {
 
     function buy(uint auctionId) public payable {
         verifyBid(auctionId);
