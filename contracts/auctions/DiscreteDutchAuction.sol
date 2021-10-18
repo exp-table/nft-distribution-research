@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-abstract contract ADiscreteDutchAuction {
+abstract contract DiscreteDutchAuction {
 
     struct Auction {
         uint256 startingPrice;

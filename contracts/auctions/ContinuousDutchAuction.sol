@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Address.sol";
 
-abstract contract AContinuousDutchAuction {
+abstract contract ContinuousDutchAuction {
 
     struct Auction {
         uint256 startingPrice;
