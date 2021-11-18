@@ -39,7 +39,7 @@ describe("Continuous Dutch Auction", function () {
 
     start = await ethers.provider.getBlockNumber();
 
-    await dutch.createAuction(toWei(initialPrice), start, toWei(decFactor), period);
+    await dutch.setAuction(0, toWei(initialPrice), toWei(decFactor), start, period);
 
   });
 
